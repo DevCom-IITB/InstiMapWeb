@@ -15,14 +15,14 @@
   "author": "Varun Patil <radialapps@gmail.com>",
   "license": "MIT",
   "devDependencies": {
-    "@babel/core": "^7.2.2",
-    "@babel/preset-env": "^7.3.1",
-    "@types/ol": "4.6.4",
+    "@babel/core": "^7.18.2",
+    "@babel/preset-env": "^7.18.2",
+    "@types/ol": "6.5.3",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
     "babelify": "^10.0.0",
-    "typescript": "^4.6.4"
+    "typescript": "^4.7.3"
   },
   "dependencies": {
-    "ol": "4.6.4"
+    "ol": "6.14.1"
   }
 }

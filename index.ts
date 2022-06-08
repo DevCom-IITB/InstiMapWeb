@@ -48,8 +48,8 @@ let _config: InstiMapConfig;
 /** Internal map obects */
 let map: OlMap;
 let view: OlView;
-let vectorLayer: OlLayerVector;
-let imlayer: OlLayerImage;
+let vectorLayer: OlLayerVector<OlSourceVector>;
+let imlayer: OlLayerImage<OlSourceImageStatic>;
 let imExtent: any;
 let imProjection: OlProjProjection;
 
@@ -137,6 +137,9 @@ export function getMap(
   const vectorLayerStyle = (feature: any): any => {
     const zoom = map.getView().getZoom();
     const loc = feature.get('loc');
+
+    if (zoom === undefined)
+      return;
 
     /* Hide residences */
     if (loc.group_id === 3 && !showResidences) {
@@ -270,8 +273,8 @@ export function getMap(
     ]]));
 
     /* Get first nearby feature */
-    const feature = vectorLayer.getSource().forEachFeatureIntersectingExtent(
-      extentFeat.getGeometry().getExtent(), (f: any) => f
+    const feature = vectorLayer.getSource()?.forEachFeatureIntersectingExtent(
+      extentFeat.getGeometry()?.getExtent()!, (f: any) => f
     );
 
     /* Zoom in */
@@ -343,7 +346,7 @@ export function moveMarker(x: number, y: number, center = true, markerid = _conf
 /** Show/hide residence buildings on map */
 export function setResidencesVisible(visible: boolean) {
   showResidences = visible;
-  vectorLayer.getSource().changed();
+  vectorLayer.getSource()?.changed();
 }
 
 /** Load the high resolution map */
