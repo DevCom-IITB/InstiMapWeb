@@ -64,7 +64,7 @@ let followingUserCallback: any = null;
 let geoLocationId: number;
 
 /** Last known geolocation */
-let geoLocationLast: { pixel_x: number, pixel_y: number};
+let geoLocationLast: { pixel_x: number, pixel_y: number };
 
 /** Whether to show residences on map */
 let showResidences = false;
@@ -76,27 +76,27 @@ const MAP_Zn = 4189;
 const MAP_Zyn = 1655;
 
 const MAP_WEIGHTS_X: number[] = [
-    -7.769917472065843,
-    159.26978694839946,
-    244.46989575495544,
-    -6.003894110679995,
-    -0.28864271213341297,
-    0.010398324019718075,
-    4.215508849724247,
-    -0.6078830146963545,
-    -7.0400449629241395
+  -7.769917472065843,
+  159.26978694839946,
+  244.46989575495544,
+  -6.003894110679995,
+  -0.28864271213341297,
+  0.010398324019718075,
+  4.215508849724247,
+  -0.6078830146963545,
+  -7.0400449629241395
 ];
 
 const MAP_WEIGHTS_Y = [
-    14.199431377059842,
-    -158.80601990819815,
-    68.9630034040724,
-    5.796703402034644,
-    1.1348242200568706,
-    0.11891051684489184,
-    -0.2930832938484276,
-    0.1448231125788526,
-    -5.282895700923075
+  14.199431377059842,
+  -158.80601990819815,
+  68.9630034040724,
+  5.796703402034644,
+  1.1348242200568706,
+  0.11891051684489184,
+  -0.2930832938484276,
+  0.1448231125788526,
+  -5.282895700923075
 ];
 
 /** Make and get the map. Call only once. */
@@ -227,7 +227,7 @@ export function getMap(
   });
 
   /* Disable tilting */
-  const interactions = OlInteraction.defaults({altShiftDragRotate: false, pinchRotate: false});
+  const interactions = OlInteraction.defaults({ altShiftDragRotate: false, pinchRotate: false });
 
   /* Make view */
   view = new OlView({
@@ -335,8 +335,8 @@ export function moveMarker(x: number, y: number, center = true, markerid = _conf
 
   /* Animate */
   if (center) {
-    view.animate({center: pos});
-    view.animate({zoom: 4.5});
+    view.animate({ center: pos });
+    view.animate({ zoom: 4.5 });
   }
 }
 
@@ -382,14 +382,14 @@ export function getGPS(failedCallback?: () => void): void {
     }
 
     /* Get permission and setup a watch */
-    geoLocationId = navigator.geolocation.watchPosition((position: Position) => {
+    geoLocationId = navigator.geolocation.watchPosition((position: GeolocationPosition) => {
       const follow = followingUser || geoLocationLast == null;
       const l = getMapXY(position);
       if (l.pixel_x > 0 && l.pixel_y > 0 && l.pixel_x < 5430 && l.pixel_y < 5375) {
         geoLocationLast = l;
         moveGPS(follow);
       }
-    }, () => {}, {
+    }, () => { }, {
       enableHighAccuracy: true
     });
   } else {
@@ -411,7 +411,7 @@ function moveGPS(center: boolean) {
 }
 
 /** Apply regression to get pixel coordinates on InstiMap */
-export function getMapXY(position: Position): { pixel_x: number, pixel_y: number } {
+export function getMapXY(position: GeolocationPosition): { pixel_x: number, pixel_y: number } {
   /* Set the origin */
   const x = (position.coords.latitude - MAP_Xn) * 1000;
   const y = (position.coords.longitude - MAP_Yn) * 1000;
@@ -431,7 +431,7 @@ export function getMapXY(position: Position): { pixel_x: number, pixel_y: number
     A[5] * x * x * y * y + A[6] * y * y +
     A[7] * x * y * y + A[8] * x * y);
 
- return {pixel_x : px, pixel_y: py};
+  return { pixel_x: px, pixel_y: py };
 }
 
 /** True if the user is being followed around the map */
