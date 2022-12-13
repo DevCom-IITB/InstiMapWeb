@@ -9,6 +9,7 @@ import OlSourceVector from 'ol/source/vector';
 import OlProjProjection from 'ol/proj/projection';
 import OlFeature from 'ol/feature';
 import OlGeomPoint from 'ol/geom/point';
+import OlGeomLineString from 'ol/geom/linestring';
 import OlGeomPolygon from 'ol/geom/polygon';
 import OlStyleStyle from 'ol/style/style';
 import OlStyleIcon from 'ol/style/icon';
@@ -463,4 +464,25 @@ export function cleanup() {
 /** Add event listener for followinguser change */
 export function addOnUserFollowingChangeListener(callback: (val: boolean) => void) {
   followingUserCallback = callback;
+}
+export function makeline(point1x:number,point1y:number,point2x:number,point2y:number,color:string, width:number){
+  const featureLine = new OlFeature({
+    geometry: new OlGeomLineString([ [point1x, 3575-point1y], [point2x, 3575-point2y] ]),
+  });
+
+  const vectorLine = new OlSourceVector({});
+vectorLine.addFeature(featureLine);
+var vectorLineLayer = new OlLayerVector({
+  source: vectorLine,
+  style: new OlStyleStyle({
+      fill: new OlStyleFill({ color: color}),
+      stroke: new OlStyleStroke({ color: color, width: width })
+    })
+})
+map.addLayer(vectorLineLayer);
+return vectorLineLayer;
+}
+  
+export function removeLine(vectorLineLayer:OlLayerVector){
+  map.removeLayer(vectorLineLayer);
 }
